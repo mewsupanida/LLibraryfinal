@@ -1,9 +1,3 @@
-# SQLite. Versions 3.8.0 and up are supported.
-#   gem install sqlite3
-#
-#   Ensure the SQLite 3 gem is defined in your Gemfile
-#   gem 'sqlite3'
-#
 default: &default
   adapter: postgresql
   username: postgres
@@ -12,8 +6,15 @@ default: &default
   timeout: 5000
 
 development:
-  <<: *default
-  database: public_dictionary
+  host: ec2-54-80-184-43.compute-1.amazonaws.com
+  username: xasgwyamnkltgs
+  password: 331322d02a66e49287c9e3213788efcd21cbc792190f8800d109deb0ad46fa9a
+  adapter: postgresql
+  timeout: 5000
+  pool: 5
+  database: d9gnnhknkbi9h9
+  port: 5432
+  encoding: unicode
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
@@ -23,5 +24,13 @@ test:
   database: public_dictionary
 
 production:
-  <<: *default
-  database: public_dictionary
+  host: ec2-54-80-184-43.compute-1.amazonaws.com
+  username: xasgwyamnkltgs
+  password: 331322d02a66e49287c9e3213788efcd21cbc792190f8800d109deb0ad46fa9a
+  adapter: postgresql
+  timeout: 5000
+  pool: 5
+  database: d9gnnhknkbi9h9
+  port: 5432
+  encoding: unicode
+
