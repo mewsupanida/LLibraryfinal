@@ -1,7 +1,7 @@
 class WelcomeController < ApplicationController
    skip_before_action :verify_authenticity_token
   def index
-    @top_words = Word.order(search_count: :desc, term: :asc).limit(12).offset(0)
+    @top_words = Word.order(search_count: :desc, term: :asc).limit(20).offset(0)
     @word = Word.new
     if params[:searchword].present?
       word = Word.find_by("term ilike ? or term_acronym ilike ?", params[:searchword], params[:searchword])
