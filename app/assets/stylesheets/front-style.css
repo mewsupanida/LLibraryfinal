@@ -1,0 +1,45 @@
+.tt-suggestion.tt-selectable {
+  padding: 3px;
+  cursor: pointer;
+}
+.tt-suggestion.tt-selectable:hover {
+  background: wheat;
+}
+.tt-dataset.tt-dataset-searchword {
+  background: white;
+  padding: 5px;
+  border-radius: 5px;
+  min-width: 200px;
+  color: black;
+}
+.add-tag-btn{
+  background:#6c757dad;
+}
+.add-term-btn{
+  background:#dc3545b5;
+}
+.circle-btn{
+  border-radius:5em;
+}
+
+#add_word form label{
+  display: block;
+}
+
+#add_word form input, #add_word form textarea{
+  margin-bottom: .5rem;
+}
+
+header.jumbotron.my-4.main_header, .btn-primary {
+    background-color: #233D53;
+    border-color: #233D53;
+    color: white;
+}
+
+button#search_word {
+    background-color: #FF9900;
+}
+
+.col-sm-12.header-text {
+    color: white;
+}

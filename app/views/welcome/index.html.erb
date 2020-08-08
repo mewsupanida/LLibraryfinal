@@ -1,0 +1,192 @@
+
+  <!-- Page Content -->
+  <div class="container">
+
+    <!-- Jumbotron Header -->
+    <header class="jumbotron my-4 main_header">
+      <div class="col-sm-12 header-text">
+        <h1 class="display-3">A Warm Welcome!</h1>
+        <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa, ipsam, eligendi, in quo sunt possimus non incidunt odit vero aliquid similique quaerat nam nobis illo aspernatur vitae fugiat numquam repellat.</p>
+      </div>
+      <form class="form-inline" method="post" action="<%= root_path%>">
+        <div class="form-group">
+          <div class="col-sm-12">
+            <input
+            type="text" class="form-control typeahead"
+            placeholder="search" id="searchterm" name="searchword" />
+            <input type="hidden" name="ip" value="" id="ip_address">
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-primary" id="search_word">Lookup</button>
+          </div>
+        </div>
+      </form>
+    </header>
+
+    <% if @search_word.present? %>
+    <div class="row mb-3" id="no_result">
+      <% unless @search_word == "no_result" %>
+      <div class="col-md-12" >
+        <div class="card h-100 alert-info">
+          <div class="card-body" style="padding: 1 rem;">
+            <h4 class="card-title">
+              <% if @search_word.term_acronym.present? %>
+              <i class="btn btn-primary btn-sm">
+                <%= @search_word.term_acronym %>
+              </i>
+              <% end %>
+              <%= @search_word.try(:term) %>
+            </h4>
+            <p class="card-text text-left">
+              <%= @search_word.try(:term_definition) %>
+            </p>
+            <p>
+              <% if @search_word.term_tags.present? %>
+                <% termtags(@search_word.term_tags).each do |tag| %>
+                  <i class="btn btn-secondary btn-sm"><%= tag %></i>
+                <% end %>
+              <% end %>
+              <button type="button" class="btn btn-secondary btn-sm add-tag-btn circle-btn" data-toggle="modal" data-target="#add_tag">
+                + Tag
+              </button>
+            </p>
+          </div>
+        </div>
+      </div>
+      <% else %>
+      <div class="col-md-12">
+        <div class="alert alert-danger">
+          No Result Found! <br><br>
+          <button type="button" class="btn btn-danger btn-sm add-term-btn circle-btn" data-toggle="modal" data-target="#add_word">
+            + Details
+          </button>
+
+        </div>
+      </div>
+      <% end %>
+    </div>
+    <% end %>
+
+    <!-- Page Features -->
+    <div class="row text-center">
+
+      <div class="col-lg-12">
+        <h4>Top searched words</h4> <br>
+      </div>
+      <% @top_words.each do |word| %>
+        <div class="col-lg-3 col-md-6 mb-4">
+          <div class="card h-100">
+            <div class="card-body" style="padding:1rem;">
+              <h4 class="card-title"><%= word.term %></h4>
+              <p class="card-text text-left">
+                <%= word.term_definition[0..75] %>...
+              </p>
+              <p class="card-text text-center">
+                <i><u>searched <%= word.search_count %> times</u></i>
+              </p>
+            </div>
+            <div class="card-footer">
+              <a href="<%= root_path(searchword: word.term)%>" class="btn btn-primary">Tell Me More!</a>
+            </div>
+          </div>
+        </div>
+      <% end %>
+
+    </div>
+    <!-- /.row -->
+
+  </div>
+  <!-- /.container -->
+
+  <!-- / add tags modal start-->
+  <div class="modal fade" id="add_tag" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="ModalLabel">
+            <b>Add Tag</b>
+          </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form class="form-inline" action="<%= add_tag_path%>" method="post">
+            <div class="form-group">
+              <div class="col-sm-12">
+                <input
+                type="text" class="form-control"
+                placeholder="#junction" name="termtags" />
+                <br>
+                <sup><i>comma separated</i></sup>
+              </div>
+              <input type="hidden" name="word_id" value="<%=@search_word.try(:id)%>">
+            </div>
+            <div class="form-group">
+              <div class="col-sm-offset-2 col-sm-12">
+                <button type="submit" class="btn btn-primary">Add tag</button>
+              </div>
+            </div>
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- / add tags modal end-->
+
+  <!-- / add word modal start-->
+  <div class="modal fade" id="add_word" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="ModalLabel"><b>Add New</b></h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <%= render 'words/form', word: @word %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- / add word modal end-->
+
+<script>
+
+  var suggestions = new Bloodhound({
+    datumTokenizer: Bloodhound.tokenizers.whitespace,
+    queryTokenizer: Bloodhound.tokenizers.whitespace,
+    // url points to a json file that contains an array of country names, see
+    // https://github.com/twitter/typeahead.js/blob/gh-pages/data/countries.json
+    prefetch: '/suggestions'
+  });
+
+  $('.typeahead#searchterm').typeahead({
+    hint: true,
+    highlight: true,
+    minLength: 1
+  }, {
+    name: 'searchword',
+    source: suggestions
+  });
+
+  $('#search_word').on( 'click', function(){
+    var search_value = $('#searchterm').val();
+    if(search_value.replace(/\s/g,"") == ""){
+         return false;
+       }
+     });
+  $(document).ready(function(){
+    var ip
+    $.getJSON("https://api.ipify.org/?format=json", function(data) {
+      console.log(JSON.stringify(data));
+      ip = data["ip"]
+      $('#ip_address').val(ip)
+    });
+  });
+
+</script>

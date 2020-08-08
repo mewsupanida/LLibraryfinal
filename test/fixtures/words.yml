@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  term: MyString
+  term_definition: MyText
+  term_acronym: MyString
+  term_tags: MyString
+  search_count: 1
+
+two:
+  term: MyString
+  term_definition: MyText
+  term_acronym: MyString
+  term_tags: MyString
+  search_count: 1

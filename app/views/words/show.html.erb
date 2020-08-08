@@ -1,0 +1,43 @@
+<p>
+  <strong>Term:</strong>
+  <%= @word.term %>
+</p>
+
+<p>
+  <strong>Term definition:</strong>
+  <%= @word.term_definition %>
+</p>
+
+<p>
+  <strong>Term acronym:</strong>
+  <%= @word.term_acronym %>
+</p>
+
+<p>
+  <strong>Term tags:</strong>
+  <%= @word.term_tags %>
+</p>
+
+<p>
+  <strong>Search count:</strong>
+  <%= @word.search_count %>
+</p>
+
+<div class="">
+  <h5>Searches</h5>
+  <table>
+    <tr>
+      <th>IP Address</th>
+      <th>Time</th>
+    </tr>
+    <% @word.follow_by_ips.each do |search| %>
+      <tr>
+        <td><%= search.ip %></td>
+        <td><%= search.created_at %></td>
+      </tr>
+    <% end %>
+  </table>
+</div>
+
+<%= link_to 'Edit', edit_word_path(@word) %> |
+<%= link_to 'Back', words_path %>

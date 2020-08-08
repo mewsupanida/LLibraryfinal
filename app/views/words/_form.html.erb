@@ -1,0 +1,37 @@
+<%= form_with(model: word, local: true) do |form| %>
+  <% if word.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(word.errors.count, "error") %> prohibited this word from being saved:</h2>
+
+      <ul>
+        <% word.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :term %>
+    <%= form.text_field :term, required: true, :class => "form-control" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :term_definition %>
+    <%= form.text_area :term_definition, required: true, :class => "form-control" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :term_acronym, "Acronym" %>
+    <%= form.text_field :term_acronym, :class => "form-control" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :term_tags, "Tags (comma separated)" %>
+    <%= form.text_field :term_tags, :class => "form-control" %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit class: "btn btn-primary mt-3" %>
+  </div>
+<% end %>
